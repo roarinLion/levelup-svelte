@@ -8,7 +8,7 @@
    * @type {import('./Question.svelte').SvelteComponent}
    */
   import Question from './Question.svelte'
-  import { fade, blur, fly, slide, scale } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
 
   /**
    * The index of the currently active question.
