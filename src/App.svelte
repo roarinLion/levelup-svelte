@@ -3,7 +3,7 @@
 </script>
 
 <main>
-  <h1>Hello World!</h1>
+  <h1>Roarin's Mythology Quiz</h1>
   <Quiz />
 </main>
 
