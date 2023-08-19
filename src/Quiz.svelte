@@ -107,7 +107,7 @@
   <!-- content here -->
   <Modal on:close={closeModal}>
     <h1>You Won Roarin's Mythology Quiz!</h1>
-    <p>Your score is {score}</p>
+    <p>Your score is {$score}</p>
     <button
       class="startOverButton"
       on:click={closeModal}>Start Over</button
