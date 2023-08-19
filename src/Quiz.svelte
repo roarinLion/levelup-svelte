@@ -8,16 +8,15 @@
    * @type {import('./Question.svelte').SvelteComponent}
    */
   import Question from './Question.svelte'
-  import { fly, fade } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
   import Modal from './Modal.svelte'
+  import { score } from './store'
 
   /**
    * The index of the currently active question.
    * @type {number}
    */
   let activeQuestion = 0
-
-  let score = 0
 
   /**
    * Fetches the quiz data.
@@ -55,16 +54,13 @@
   }
 
   function resetQuiz() {
-    score = 0
+    score.set(0)
     quiz = getQuiz()
     activeQuestion = 0
   }
 
-  function addToScore() {
-    score = score + 1
-  }
   // reactive statement
-  $: if (score > 2) {
+  $: if ($score > 2) {
     isModalOpen = true
   }
   // reactive statement
@@ -77,7 +73,7 @@
   <button on:click|once={resetQuiz}>Start New Quiz!</button>
 
   <!-- Displaying the user's score (static as 0 for now) -->
-  <h4>My Score: {score}</h4>
+  <h4>My Score: {$score}</h4>
 
   <!-- Displaying the current question number -->
   <h4>Question: #{questionNumber}</h4>
@@ -95,7 +91,6 @@
         >
           <!-- Rendering the active question -->
           <Question
-            {addToScore}
             {nextQuestion}
             {question}
           />
