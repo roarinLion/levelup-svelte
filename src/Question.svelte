@@ -90,20 +90,26 @@
 
 <!-- Displays the answer options as buttons -->
 {#each allAnswers as answer}
-  <button on:click={() => checkQuestion(answer.correct)}>
+  <button
+    class="answerButton"
+    on:click={() => checkQuestion(answer.correct)}
+  >
     {@html answer.answer}
   </button>
 {/each}
 {#if isAnswered === true}
   <!-- content here -->
   <div>
-    <button on:click={nextQuestion}>Next Question</button>
+    <button
+      class="nextButton"
+      on:click={nextQuestion}>Next Question ➡️</button
+    >
   </div>
 {/if}
 
 <style>
   /* Styles for the answer buttons */
-  button {
+  .answerButton {
     margin: 5px;
     padding: 5px;
     border-radius: 5px;
@@ -112,6 +118,17 @@
     &:hover {
       background-color: #ddd;
     }
+  }
+  .nextButton {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    font-size: 24px;
+    color: gray;
+    cursor: pointer;
+    background: inherit;
+    margin-top: 20px;
   }
   h5 {
     color: red;
