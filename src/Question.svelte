@@ -1,5 +1,8 @@
 <script>
   export let question
+  let isCorrect
+  let isAnswered = false
+
   let answers = question.incorrect_answers.map((answer) => {
     return {
       answer,
@@ -18,16 +21,27 @@
   function shuffle(array) {
     array.sort(() => Math.random() - 0.5)
   }
+
+  function checkQuestion(correct) {
+    isCorrect = correct
+    isAnswered = true
+  }
 </script>
 
 <h3>
   {@html question.question}
 </h3>
-
+{#if isAnswered}
+  <h4>
+    {#if isCorrect}
+      Correct Answer 🎉
+    {:else}
+      Wrong Answer 😢
+    {/if}
+  </h4>{/if}
 {#each allAnswers as answer}
-  <button>
+  <button on:click={() => checkQuestion(answer.correct)}>
     {@html answer.answer}
-    {answer.correct}
   </button>
 {/each}
 
