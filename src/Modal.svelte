@@ -1,20 +1,32 @@
 <script>
-  import { fade } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
+  import { createEventDispatcher } from 'svelte'
+
+  const dispatch = createEventDispatcher()
 </script>
 
 <div
-  out:fade={{ duration: 250 }}
-  in:fade={{ duration: 250 }}
+  transition:fade={{ duration: 200 }}
   class="wrapper"
 >
-  <div class="modal">
+  <div
+    transition:fly={{ y: -100 }}
+    class="modal"
+  >
+    <button
+      on:click={() => {
+        dispatch('close')
+      }}
+    >
+      Close
+    </button>
     <!-- <slot>optional fallback</slot> -->
 
     <slot />
   </div>
 </div>
 
-<style>
+<style lang="scss">
   .wrapper {
     position: fixed;
     display: flex;
@@ -25,12 +37,13 @@
     right: 0;
     bottom: 0;
     background: rgba(8, 8, 8, 0.6);
-  }
-  .modal {
-    position: fixed;
-    background: rgb(31, 31, 31);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    .modal {
+      text-align: center;
+      position: fixed;
+      background: rgb(31, 31, 31);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    }
   }
 </style>
