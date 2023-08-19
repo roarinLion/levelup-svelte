@@ -12,6 +12,8 @@
    * @type {Question}
    */
   export let question
+  export let nextQuestion
+  export let addToScore
 
   /**
    * Indicates if the selected answer is correct.
@@ -64,6 +66,9 @@
   function checkQuestion(correct) {
     isCorrect = correct
     isAnswered = true
+    if (correct) {
+      addToScore()
+    }
   }
 </script>
 
@@ -74,13 +79,13 @@
 
 <!-- Displays feedback based on the user's answer -->
 {#if isAnswered}
-  <h4>
+  <h5>
     {#if isCorrect}
       Correct Answer 🎉
     {:else}
       Wrong Answer 😢
     {/if}
-  </h4>
+  </h5>
 {/if}
 
 <!-- Displays the answer options as buttons -->
@@ -89,6 +94,12 @@
     {@html answer.answer}
   </button>
 {/each}
+{#if isAnswered === true}
+  <!-- content here -->
+  <div>
+    <button on:click={nextQuestion}>Next Question</button>
+  </div>
+{/if}
 
 <style>
   /* Styles for the answer buttons */
