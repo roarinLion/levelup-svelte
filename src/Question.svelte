@@ -79,7 +79,7 @@
 
 <!-- Displays feedback based on the user's answer -->
 {#if isAnswered}
-  <h5>
+  <h5 class:isCorrect>
     {#if isCorrect}
       Correct Answer 🎉
     {:else}
@@ -112,5 +112,11 @@
     &:hover {
       background-color: #ddd;
     }
+  }
+  h5 {
+    color: red;
+  }
+  .isCorrect {
+    color: green;
   }
 </style>
