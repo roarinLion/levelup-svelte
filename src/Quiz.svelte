@@ -13,7 +13,9 @@
    * The index of the currently active question.
    * @type {number}
    */
-  let activeQuestion = 2
+  let activeQuestion = 0
+
+  let score = 0
 
   /**
    * Fetches the quiz data.
@@ -39,18 +41,28 @@
    * Handles the click event to start a new quiz.
    * @function
    */
-  function handleClick() {
+
+  function nextQuestion() {
+    activeQuestion = activeQuestion + 1
+  }
+
+  function resetQuiz() {
+    score = 0
     quiz = getQuiz()
+    activeQuestion = 0
+  }
+  function addToScore() {
+    score = score + 1
   }
 </script>
 
 <!-- Main content of the component -->
 <div>
   <!-- Button to start a new quiz -->
-  <button on:click={handleClick}>Start New Quiz!</button>
+  <button on:click={resetQuiz}>Start New Quiz!</button>
 
   <!-- Displaying the user's score (static as 0 for now) -->
-  <h4>My Score: 0</h4>
+  <h4>My Score: {score}</h4>
 
   <!-- Displaying the current question number -->
   <h4>Question: #{activeQuestion + 1}</h4>
@@ -62,7 +74,11 @@
     {#each data.results as question, index}
       {#if index === activeQuestion}
         <!-- Rendering the active question -->
-        <Question {question} />
+        <Question
+          {addToScore}
+          {nextQuestion}
+          {question}
+        />
       {/if}
     {/each}
   {:catch error}
