@@ -24,10 +24,11 @@
    * @type {Promise<Object>}
    */
   let quiz = getQuiz()
-  let isModalOpen = true
+  let isModalOpen = false
 
   function closeModal() {
     isModalOpen = false
+    resetQuiz()
   }
 
   /**
@@ -64,8 +65,7 @@
   }
   // reactive statement
   $: if (score > 2) {
-    alert('You won!')
-    resetQuiz()
+    isModalOpen = true
   }
   // reactive statement
   $: questionNumber = activeQuestion + 1
@@ -110,11 +110,13 @@
 
 {#if isModalOpen}
   <!-- content here -->
-  <Modal>
-    <h1>You won! Congratulations!</h1>
+  <Modal on:close={closeModal}>
+    <h1>You Won Roarin's Mythology Quiz!</h1>
     <p>Your score is {score}</p>
-    <button>Start Over</button>
-    <button on:click={closeModal}>Close Modal</button>
+    <button
+      class="startOverButton"
+      on:click={closeModal}>Start Over</button
+    >
   </Modal>
 {/if}
 
@@ -122,5 +124,17 @@
   /* This keeps the  questions on top of eachother fading in and out */
   .fade-wrapper {
     position: absolute;
+  }
+
+  .startOverButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
   }
 </style>
