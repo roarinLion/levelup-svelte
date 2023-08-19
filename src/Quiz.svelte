@@ -1,22 +1,13 @@
 <script>
   import Question from './Question.svelte'
+  let activeQuestion = 2
   let quiz = getQuiz()
-
-  function pickAnswer(answer) {
-    if (answer === correctAnswer) {
-      result = 'Correct!'
-    } else {
-      result = 'Wrong!'
-    }
-    console.log('Answer Picked' + ' ' + answer)
-  }
 
   async function getQuiz() {
     const res = await fetch(
-      'https://opentdb.com/api.php?amount=10&category=10&difficulty=medium&type=multiple'
+      'https://opentdb.com/api.php?amount=10&category=20&difficulty=hard&type=multiple'
     )
     const quiz = await res.json()
-    console.log(quiz)
     return quiz
   }
 
@@ -26,13 +17,17 @@
 </script>
 
 <div>
-  <button on:click={handleClick}>Get New Questions!</button>
+  <button on:click={handleClick}>Start New Quiz!</button>
+  <h4>My Score: 0</h4>
+  <h4>Question: #{activeQuestion + 1}</h4>
 
   {#await quiz}
     Loading...
   {:then data}
-    {#each data.results as question}
-      <Question {question} />
+    {#each data.results as question, index}
+      {#if index === activeQuestion}
+        <Question {question} />
+      {/if}
     {/each}
   {:catch error}
     <p>{error.message}</p>
@@ -40,14 +35,4 @@
 </div>
 
 <style>
-  button {
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #eee;
-
-    &:hover {
-      background-color: #ddd;
-    }
-  }
 </style>
