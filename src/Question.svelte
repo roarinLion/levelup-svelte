@@ -6,25 +6,10 @@
    * @property {string} correct_answer - The correct answer for the question.
    * @property {string[]} incorrect_answers - An array of incorrect answers.
    */
-
-  /**
-   * The question data for the quiz.
-   * @type {Question}
-   */
+  import { score } from './store'
   export let question
   export let nextQuestion
-  export let addToScore
-
-  /**
-   * Indicates if the selected answer is correct.
-   * @type {boolean}
-   */
   let isCorrect
-
-  /**
-   * Indicates if the user has answered the question.
-   * @type {boolean}
-   */
   let isAnswered = false
 
   /**
@@ -67,7 +52,8 @@
     isCorrect = correct
     isAnswered = true
     if (correct) {
-      addToScore()
+      score.update((val) => val + 1)
+      console.log(score)
     }
   }
 </script>
