@@ -8,7 +8,8 @@
    * @type {import('./Question.svelte').SvelteComponent}
    */
   import Question from './Question.svelte'
-  import { fly } from 'svelte/transition'
+  import { fly, fade } from 'svelte/transition'
+  import Modal from './Modal.svelte'
 
   /**
    * The index of the currently active question.
@@ -23,6 +24,11 @@
    * @type {Promise<Object>}
    */
   let quiz = getQuiz()
+  let isModalOpen = true
+
+  function closeModal() {
+    isModalOpen = false
+  }
 
   /**
    * Fetches quiz data from the Open Trivia Database API.
@@ -52,21 +58,29 @@
     quiz = getQuiz()
     activeQuestion = 0
   }
+
   function addToScore() {
     score = score + 1
   }
+  // reactive statement
+  $: if (score > 2) {
+    alert('You won!')
+    resetQuiz()
+  }
+  // reactive statement
+  $: questionNumber = activeQuestion + 1
 </script>
 
 <!-- Main content of the component -->
 <div>
   <!-- Button to start a new quiz -->
-  <button on:click={resetQuiz}>Start New Quiz!</button>
+  <button on:click|once={resetQuiz}>Start New Quiz!</button>
 
   <!-- Displaying the user's score (static as 0 for now) -->
   <h4>My Score: {score}</h4>
 
   <!-- Displaying the current question number -->
-  <h4>Question: #{activeQuestion + 1}</h4>
+  <h4>Question: #{questionNumber}</h4>
 
   <!-- Loading and displaying quiz data -->
   {#await quiz}
@@ -93,6 +107,16 @@
     <p>{error.message}</p>
   {/await}
 </div>
+
+{#if isModalOpen}
+  <!-- content here -->
+  <Modal>
+    <h1>You won! Congratulations!</h1>
+    <p>Your score is {score}</p>
+    <button>Start Over</button>
+    <button on:click={closeModal}>Close Modal</button>
+  </Modal>
+{/if}
 
 <style>
   /* This keeps the  questions on top of eachother fading in and out */
