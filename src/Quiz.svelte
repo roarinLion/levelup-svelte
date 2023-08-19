@@ -8,6 +8,7 @@
    * @type {import('./Question.svelte').SvelteComponent}
    */
   import Question from './Question.svelte'
+  import { fade, blur, fly, slide, scale } from 'svelte/transition'
 
   /**
    * The index of the currently active question.
@@ -73,12 +74,18 @@
   {:then data}
     {#each data.results as question, index}
       {#if index === activeQuestion}
-        <!-- Rendering the active question -->
-        <Question
-          {addToScore}
-          {nextQuestion}
-          {question}
-        />
+        <div
+          in:fly={{ x: 100, duration: 200 }}
+          out:fly={{ x: -200, duration: 200 }}
+          class="fade-wrapper"
+        >
+          <!-- Rendering the active question -->
+          <Question
+            {addToScore}
+            {nextQuestion}
+            {question}
+          />
+        </div>
       {/if}
     {/each}
   {:catch error}
@@ -88,5 +95,8 @@
 </div>
 
 <style>
-  /* Add any styles here if needed */
+  /* This keeps the  questions on top of eachother fading in and out */
+  .fade-wrapper {
+    position: absolute;
+  }
 </style>
