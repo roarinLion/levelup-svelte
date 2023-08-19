@@ -24,6 +24,12 @@
   :global(body) {
     background-color: black;
   }
+  main {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+  }
 
   /* Setting the global text color for header and paragraph elements */
   :global(h1, h2, h3, h4, h5, h6, p) {
